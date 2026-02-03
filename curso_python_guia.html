@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Python Avanzado - Guía del Temario</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a25;
+            --accent-python: #306998;
+            --accent-yellow: #FFD43B;
+            --accent-green: #4ade80;
+            --accent-purple: #a78bfa;
+            --accent-orange: #fb923c;
+            --accent-pink: #f472b6;
+            --accent-cyan: #22d3ee;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #2a2a3a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(48, 105, 152, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(48, 105, 152, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-python);
+            top: -100px;
+            right: -100px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--accent-yellow);
+            bottom: 10%;
+            left: -50px;
+            animation: float 20s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .python-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-python), var(--accent-yellow));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            box-shadow: 0 0 30px rgba(48, 105, 152, 0.5);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            border-color: var(--accent-python);
+            color: var(--text-primary);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-python);
+            border-color: var(--accent-python);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Session Cards */
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .session-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .session-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--card-accent), transparent);
+        }
+
+        .session-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--card-accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .session-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .session-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--card-accent), transparent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .session-info h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+        }
+
+        .session-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .session-content {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .topics-list {
+            list-style: none;
+        }
+
+        .topics-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .topics-list li:last-child {
+            border-bottom: none;
+        }
+
+        .topics-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--card-accent);
+            font-weight: bold;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag-fundamentals { background: rgba(74, 222, 128, 0.15); color: var(--accent-green); }
+        .tag-intermediate { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+        .tag-advanced { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); }
+        .tag-ml { background: rgba(244, 114, 182, 0.15); color: var(--accent-pink); }
+        .tag-project { background: rgba(34, 211, 238, 0.15); color: var(--accent-cyan); }
+
+        /* Progress Tracker */
+        .progress-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-header h2 {
+            font-size: 1.3rem;
+        }
+
+        .progress-bar-container {
+            height: 12px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-python), var(--accent-yellow));
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .progress-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+        }
+
+        .progress-checkbox:hover {
+            background: var(--bg-secondary);
+        }
+
+        .progress-checkbox input {
+            display: none;
+        }
+
+        .progress-checkbox .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .progress-checkbox input:checked + .checkmark {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .progress-checkbox input:checked + .checkmark::after {
+            content: '✓';
+            color: var(--bg-primary);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Quick Reference */
+        .quick-ref {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .quick-ref.active {
+            display: grid;
+        }
+
+        .ref-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .ref-card h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ref-card h3::before {
+            content: '📚';
+        }
+
+        .ref-card pre {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            color: var(--accent-yellow);
+        }
+
+        .ref-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sessions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                gap: 1.5rem;
+            }
+
+            .nav-tabs {
+                justify-content: flex-start;
+            }
+
+            header {
+                padding: 2rem 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+
+        /* Section visibility */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--accent-yellow);
+            text-decoration: none;
+        }
+
+        /* Learning Path */
+        .learning-path {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .learning-path::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-green), var(--accent-purple), var(--accent-orange), var(--accent-pink));
+        }
+
+        .path-item {
+            position: relative;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+        }
+
+        .path-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--bg-primary);
+            border: 2px solid var(--card-accent, var(--accent-python));
+            border-radius: 50%;
+        }
+
+        .path-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .path-item p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .module-title {
+            font-size: 1.2rem;
+            color: var(--accent-yellow);
+            margin: 2rem 0 1rem;
+            padding-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+
+    <header>
+        <div class="logo">
+            <div class="python-icon">Py</div>
+        </div>
+        <h1>Curso Python Avanzado</h1>
+        <p class="subtitle">De fundamentos a Machine Learning: 12 sesiones para dominar Python profesionalmente</p>
+        
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Sesiones</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">6</div>
+                <div class="stat-label">Librerías</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">120+</div>
+                <div class="stat-label">Ejercicios</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">24h</div>
+                <div class="stat-label">Contenido</div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" data-section="overview">📋 Temario</button>
+        <button class="nav-tab" data-section="progress">📊 Mi Progreso</button>
+        <button class="nav-tab" data-section="path">🛤️ Ruta de Aprendizaje</button>
+        <button class="nav-tab" data-section="reference">📖 Referencia Rápida</button>
+    </nav>
+
+    <main>
+        <!-- Overview Section -->
+        <section id="overview" class="section active">
+            <div class="sessions-grid">
+                <!-- Session 1 -->
+                <article class="session-card" style="--card-accent: #4ade80;">
+                    <div class="session-header">
+                        <div class="session-number">01</div>
+                        <div class="session-info">
+                            <h3>Fundamentos de Estructura de Código</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2 horas</span>
+                                <span>📝 10 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Anatomía de un programa Python</li>
+                            <li>Módulos, paquetes e imports</li>
+                            <li>Namespaces y scope</li>
+                            <li>Estructuras de control avanzadas</li>
+                            <li>Comprensiones de listas, sets y diccionarios</li>
+                        </ul>
+                        <span class="tag tag-fundamentals">Fundamentos</span>
+                    </div>
+                </article>
+
+                <!-- Session 2 -->
+                <article class="session-card" style="--card-accent: #4ade80;">
+                    <div class="session-header">
+                        <div class="session-number">02</div>
+                        <div class="session-info">
+                            <h3>PEP8 y Código Profesional</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2 horas</span>
+                                <span>📝 12 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Convenciones de nombrado</li>
+                            <li>Formato y estilo de código</li>
+                            <li>Docstrings y documentación</li>
+                            <li>Type hints y anotaciones</li>
+                            <li>Herramientas: black, flake8, mypy</li>
+                        </ul>
+                        <span class="tag tag-fundamentals">Fundamentos</span>
+                    </div>
+                </article>
+
+                <!-- Session 3 -->
+                <article class="session-card" style="--card-accent: #a78bfa;">
+                    <div class="session-header">
+                        <div class="session-number">03</div>
+                        <div class="session-info">
+                            <h3>Funciones Avanzadas y Recursividad</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2.5 horas</span>
+                                <span>📝 15 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Funciones como objetos de primera clase</li>
+                            <li>Closures y decoradores</li>
+                            <li>Recursividad: principios y optimización</li>
+                            <li>Tail recursion y memoization</li>
+                            <li>Casos prácticos: árboles, fractales, algoritmos</li>
+                        </ul>
+                        <span class="tag tag-intermediate">Intermedio</span>
+                    </div>
+                </article>
+
+                <!-- Session 4 -->
+                <article class="session-card" style="--card-accent: #a78bfa;">
+                    <div class="session-header">
+                        <div class="session-number">04</div>
+                        <div class="session-info">
+                            <h3>Generadores e Iteradores</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2 horas</span>
+                                <span>📝 12 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Protocolo de iteración en Python</li>
+                            <li>Generadores con yield</li>
+                            <li>Expresiones generadoras</li>
+                            <li>Corrutinas y send()</li>
+                            <li>Pipelines de datos eficientes</li>
+                        </ul>
+                        <span class="tag tag-intermediate">Intermedio</span>
+                    </div>
+                </article>
+
+                <!-- Session 5 -->
+                <article class="session-card" style="--card-accent: #fb923c;">
+                    <div class="session-header">
+                        <div class="session-number">05</div>
+                        <div class="session-info">
+                            <h3>NumPy: Computación Numérica</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2.5 horas</span>
+                                <span>📝 15 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Arrays N-dimensionales</li>
+                            <li>Broadcasting y vectorización</li>
+                            <li>Indexación avanzada y slicing</li>
+                            <li>Operaciones matemáticas y estadísticas</li>
+                            <li>Álgebra lineal con NumPy</li>
+                        </ul>
+                        <span class="tag tag-advanced">Avanzado</span>
+                    </div>
+                </article>
+
+                <!-- Session 6 -->
+                <article class="session-card" style="--card-accent: #fb923c;">
+                    <div class="session-header">
+                        <div class="session-number">06</div>
+                        <div class="session-info">
+                            <h3>Pandas: Análisis de Datos</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 3 horas</span>
+                                <span>📝 18 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Series y DataFrames</li>
+                            <li>Lectura/escritura de datos (CSV, Excel, SQL)</li>
+                            <li>Limpieza y transformación de datos</li>
+                            <li>GroupBy y operaciones de agregación</li>
+                            <li>Merge, join y concatenación</li>
+                        </ul>
+                        <span class="tag tag-advanced">Avanzado</span>
+                    </div>
+                </article>
+
+                <!-- Session 7 -->
+                <article class="session-card" style="--card-accent: #fb923c;">
+                    <div class="session-header">
+                        <div class="session-number">07</div>
+                        <div class="session-info">
+                            <h3>Pandas Avanzado</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2.5 horas</span>
+                                <span>📝 12 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>MultiIndex y datos jerárquicos</li>
+                            <li>Pivot tables y crosstab</li>
+                            <li>Series temporales</li>
+                            <li>Window functions</li>
+                            <li>Optimización de rendimiento</li>
+                        </ul>
+                        <span class="tag tag-advanced">Avanzado</span>
+                    </div>
+                </article>
+
+                <!-- Session 8 -->
+                <article class="session-card" style="--card-accent: #22d3ee;">
+                    <div class="session-header">
+                        <div class="session-number">08</div>
+                        <div class="session-info">
+                            <h3>Matplotlib: Visualización Básica</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2 horas</span>
+                                <span>📝 10 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Arquitectura de Matplotlib</li>
+                            <li>Gráficos de líneas, barras y scatter</li>
+                            <li>Subplots y layouts</li>
+                            <li>Personalización de estilos</li>
+                            <li>Anotaciones y leyendas</li>
+                        </ul>
+                        <span class="tag tag-advanced">Avanzado</span>
+                    </div>
+                </article>
+
+                <!-- Session 9 -->
+                <article class="session-card" style="--card-accent: #22d3ee;">
+                    <div class="session-header">
+                        <div class="session-number">09</div>
+                        <div class="session-info">
+                            <h3>Seaborn: Visualización Estadística</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 2 horas</span>
+                                <span>📝 10 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Gráficos de distribución</li>
+                            <li>Gráficos categóricos</li>
+                            <li>Regresión y correlación</li>
+                            <li>Heatmaps y cluster maps</li>
+                            <li>FacetGrid para análisis multivariable</li>
+                        </ul>
+                        <span class="tag tag-advanced">Avanzado</span>
+                    </div>
+                </article>
+
+                <!-- Session 10 -->
+                <article class="session-card" style="--card-accent: #f472b6;">
+                    <div class="session-header">
+                        <div class="session-number">10</div>
+                        <div class="session-info">
+                            <h3>Scikit-learn: ML Clásico</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 3 horas</span>
+                                <span>📝 15 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Pipeline de Machine Learning</li>
+                            <li>Preprocesamiento de datos</li>
+                            <li>Modelos de clasificación y regresión</li>
+                            <li>Validación cruzada y métricas</li>
+                            <li>Selección de características</li>
+                        </ul>
+                        <span class="tag tag-ml">Machine Learning</span>
+                    </div>
+                </article>
+
+                <!-- Session 11 -->
+                <article class="session-card" style="--card-accent: #f472b6;">
+                    <div class="session-header">
+                        <div class="session-number">11</div>
+                        <div class="session-info">
+                            <h3>PyTorch: Deep Learning</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 3 horas</span>
+                                <span>📝 12 ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Tensores y autograd</li>
+                            <li>Construcción de redes neuronales</li>
+                            <li>Entrenamiento y optimización</li>
+                            <li>Datasets y DataLoaders</li>
+                            <li>GPU computing con CUDA</li>
+                        </ul>
+                        <span class="tag tag-ml">Machine Learning</span>
+                    </div>
+                </article>
+
+                <!-- Session 12 -->
+                <article class="session-card" style="--card-accent: #FFD43B;">
+                    <div class="session-header">
+                        <div class="session-number">12</div>
+                        <div class="session-info">
+                            <h3>Proyecto Final Integrador</h3>
+                            <div class="session-meta">
+                                <span>⏱️ 4 horas</span>
+                                <span>📝 Proyecto completo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-content">
+                        <ul class="topics-list">
+                            <li>Análisis exploratorio completo</li>
+                            <li>Visualización profesional de datos</li>
+                            <li>Modelo de ML end-to-end</li>
+                            <li>Buenas prácticas de código</li>
+                            <li>Documentación y reproducibilidad</li>
+                        </ul>
+                        <span class="tag tag-project">Proyecto</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progress" class="section">
+            <div class="progress-section">
+                <div class="progress-header">
+                    <h2>📊 Tu Progreso en el Curso</h2>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="progress-checkboxes" id="progress-checkboxes">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Path Section -->
+        <section id="path" class="section">
+            <h2 class="module-title">🟢 Módulo 1: Fundamentos (Sesiones 1-2)</h2>
+            <div class="learning-path">
+                <div class="path-item" style="--card-accent: #4ade80;">
+                    <h4>Sesión 1: Estructura de Código</h4>
+                    <p>Domina la anatomía de programas Python, módulos y namespaces</p>
+                </div>
+                <div class="path-item" style="--card-accent: #4ade80;">
+                    <h4>Sesión 2: PEP8 y Código Profesional</h4>
+                    <p>Escribe código limpio, documentado y con type hints</p>
+                </div>
+            </div>
+
+            <h2 class="module-title">🟣 Módulo 2: Programación Intermedia (Sesiones 3-4)</h2>
+            <div class="learning-path">
+                <div class="path-item" style="--card-accent: #a78bfa;">
+                    <h4>Sesión 3: Funciones y Recursividad</h4>
+                    <p>Closures, decoradores y técnicas recursivas avanzadas</p>
+                </div>
+                <div class="path-item" style="--card-accent: #a78bfa;">
+                    <h4>Sesión 4: Generadores e Iteradores</h4>
+                    <p>Procesamiento eficiente de datos con yield y corrutinas</p>
+                </div>
+            </div>
+
+            <h2 class="module-title">🟠 Módulo 3: Data Science Core (Sesiones 5-7)</h2>
+            <div class="learning-path">
+                <div class="path-item" style="--card-accent: #fb923c;">
+                    <h4>Sesión 5: NumPy</h4>
+                    <p>Arrays, broadcasting y álgebra lineal</p>
+                </div>
+                <div class="path-item" style="--card-accent: #fb923c;">
+                    <h4>Sesión 6: Pandas Básico</h4>
+                    <p>DataFrames, limpieza y transformación de datos</p>
+                </div>
+                <div class="path-item" style="--card-accent: #fb923c;">
+                    <h4>Sesión 7: Pandas Avanzado</h4>
+                    <p>MultiIndex, series temporales y optimización</p>
+                </div>
+            </div>
+
+            <h2 class="module-title">🔵 Módulo 4: Visualización (Sesiones 8-9)</h2>
+            <div class="learning-path">
+                <div class="path-item" style="--card-accent: #22d3ee;">
+                    <h4>Sesión 8: Matplotlib</h4>
+                    <p>Gráficos personalizados y layouts complejos</p>
+                </div>
+                <div class="path-item" style="--card-accent: #22d3ee;">
+                    <h4>Sesión 9: Seaborn</h4>
+                    <p>Visualización estadística y análisis multivariable</p>
+                </div>
+            </div>
+
+            <h2 class="module-title">🔴 Módulo 5: Machine Learning (Sesiones 10-12)</h2>
+            <div class="learning-path">
+                <div class="path-item" style="--card-accent: #f472b6;">
+                    <h4>Sesión 10: Scikit-learn</h4>
+                    <p>Pipeline completo de ML clásico</p>
+                </div>
+                <div class="path-item" style="--card-accent: #f472b6;">
+                    <h4>Sesión 11: PyTorch</h4>
+                    <p>Deep learning y redes neuronales</p>
+                </div>
+                <div class="path-item" style="--card-accent: #FFD43B;">
+                    <h4>Sesión 12: Proyecto Final</h4>
+                    <p>Integración de todas las habilidades en un proyecto real</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reference Section -->
+        <section id="reference" class="section">
+            <div class="quick-ref active">
+                <div class="ref-card">
+                    <h3>PEP8 - Nombrado</h3>
+                    <pre>
+# Variables y funciones
+mi_variable = 42
+def calcular_total():
+
+# Clases
+class MiClase:
+
+# Constantes
+MAX_VALOR = 100
+
+# Privado
+_interno = "privado"
+__muy_privado = "name mangling"</pre>
+                </div>
+
+                <div class="ref-card">
+                    <h3>Comprensiones</h3>
+                    <pre>
+# Lista
+[x**2 for x in range(10)]
+
+# Dict
+{k: v for k, v in items}
+
+# Set
+{x for x in lista if x > 0}
+
+# Generador
+(x for x in range(1000000))</pre>
+                </div>
+
+                <div class="ref-card">
+                    <h3>Decoradores</h3>
+                    <pre>
+def mi_decorador(func):
+    def wrapper(*args, **kwargs):
+        print("Antes")
+        resultado = func(*args, **kwargs)
+        print("Después")
+        return resultado
+    return wrapper
+
+@mi_decorador
+def saludar():
+    print("Hola!")</pre>
+                </div>
+
+                <div class="ref-card">
+                    <h3>Generadores</h3>
+                    <pre>
+def contador(n):
+    i = 0
+    while i < n:
+        yield i
+        i += 1
+
+# Uso
+for num in contador(5):
+    print(num)</pre>
+                </div>
+
+                <div class="ref-card">
+                    <h3>NumPy Básico</h3>
+                    <pre>
+import numpy as np
+
+arr = np.array([1, 2, 3])
+zeros = np.zeros((3, 3))
+ones = np.ones((2, 4))
+rango = np.arange(0, 10, 2)
+linspace = np.linspace(0, 1, 5)</pre>
+                </div>
+
+                <div class="ref-card">
+                    <h3>Pandas Básico</h3>
+                    <pre>
+import pandas as pd
+
+df = pd.read_csv('datos.csv')
+df.head()
+df.describe()
+df['columna'].value_counts()
+df.groupby('cat').mean()</pre>
+                </div>
+
+                <div class="ref-card">
+                    <h3>Matplotlib</h3>
+                    <pre>
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+ax.plot(x, y, label='Datos')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.legend()
+plt.show()</pre>
+                </div>
+
+                <div class="ref-card">
+                    <h3>Scikit-learn Pipeline</h3>
+                    <pre>
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+model = LogisticRegression()
+model.fit(X_train, y_train)</pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Curso Python Avanzado • Creado con 🐍 por Claude</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+            Documentación oficial: 
+            <a href="https://docs.python.org/3/" target="_blank">Python</a> • 
+            <a href="https://numpy.org/doc/" target="_blank">NumPy</a> • 
+            <a href="https://pandas.pydata.org/docs/" target="_blank">Pandas</a> • 
+            <a href="https://pytorch.org/docs/" target="_blank">PyTorch</a>
+        </p>
+    </footer>
+
+    <script>
+        // Tab navigation
+        const tabs = document.querySelectorAll('.nav-tab');
+        const sections = document.querySelectorAll('.section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const sectionId = tab.dataset.section;
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === sectionId) {
+                        section.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Progress tracking
+        const sessionNames = [
+            'Fundamentos de Estructura',
+            'PEP8 y Código Profesional',
+            'Funciones y Recursividad',
+            'Generadores e Iteradores',
+            'NumPy',
+            'Pandas Básico',
+            'Pandas Avanzado',
+            'Matplotlib',
+            'Seaborn',
+            'Scikit-learn',
+            'PyTorch',
+            'Proyecto Final'
+        ];
+
+        const checkboxContainer = document.getElementById('progress-checkboxes');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+
+        // Load saved progress
+        const savedProgress = JSON.parse(localStorage.getItem('pythonCourseProgress') || '[]');
+
+        sessionNames.forEach((name, index) => {
+            const label = document.createElement('label');
+            label.className = 'progress-checkbox';
+            label.innerHTML = `
+                <input type="checkbox" data-session="${index}" ${savedProgress.includes(index) ? 'checked' : ''}>
+                <span class="checkmark"></span>
+                <span>S${index + 1}: ${name}</span>
+            `;
+            checkboxContainer.appendChild(label);
+        });
+
+        function updateProgress() {
+            const checked = document.querySelectorAll('.progress-checkbox input:checked');
+            const progress = Array.from(checked).map(cb => parseInt(cb.dataset.session));
+            localStorage.setItem('pythonCourseProgress', JSON.stringify(progress));
+            
+            const percent = Math.round((progress.length / sessionNames.length) * 100);
+            progressBar.style.width = `${percent}%`;
+            progressPercent.textContent = `${percent}%`;
+        }
+
+        checkboxContainer.addEventListener('change', updateProgress);
+        updateProgress();
+    </script>
+</body>
+</html>
